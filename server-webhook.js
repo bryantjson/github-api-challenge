@@ -26,3 +26,9 @@ handler.on('issues', function (event) {
     event.payload.issue.number,
     event.payload.issue.title)
 })
+
+handler.on('repository', function (event) {
+    console.log('Received a repository event for %s action=%s: #%d %s',
+      event.payload.repository.name,
+      event.payload.action)
+  })
