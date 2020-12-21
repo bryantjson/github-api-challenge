@@ -7,10 +7,12 @@ console.log("TOKEN AUTH: " + process.env.tokenauth);
 
 const octokit = new Octokit({ auth: process.env.tokenauth});
 
-const start = async function(a,b) {
-  const response = await octokit.request("GET /orgs/{org}/repos", {
-    org: "github-bryant",
-    type: "public",
+const createIssue = async function(a,b) {
+  const response = await octokit.request("POST /repos/github-bryant//{owner}/{repo}/issues", {
+    owner: "github-bryant",
+    repo: "github-api-challenge",
+    type: "New Issue 101",
+    body: "Howdy! This is from GitHub code @mention bryantson"
   });
 
   console.log("HERE IS YOUR RESPONSE: " + JSON.stringify(response));
@@ -36,7 +38,7 @@ handler.on('push', function (event) {
 
 handler.on('issues', function (event) {
 
-  start();
+  createIssue();
   console.log('Received an issue event for %s action=%s: #%d %s',
     event.payload.repository.name,
     event.payload.action,
