@@ -3,9 +3,7 @@ var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/webhook', secret: '1234sec' })
 const { Octokit } = require("@octokit/core");
 
-const ocktokit = new Octokit({ auth: `1234sec`});
-
-
+const octokit = new Octokit({ auth: `1234sec`});
 
 const start = async function(a,b) {
   const response = await octokit.request("GET /orgs/{org}/repos", {
