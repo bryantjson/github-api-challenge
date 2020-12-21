@@ -9,7 +9,7 @@ const exec = require('child_process').exec;
 console.log("START 4");
 
 http.createServer(function (req, res) {
-  req.on('data', function(chunk) {
+  req.on('issues', function(chunk) {
       let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
 
       console.log("NEW TEST");
