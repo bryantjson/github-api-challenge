@@ -7,6 +7,7 @@
     "start": "node server-webhook.js"
   },
   "dependencies": {
-    "express": "4.17.1"
+    "express": "4.17.1",
+    "@octokit/webhooks": "7.21.0"
   }
 }
