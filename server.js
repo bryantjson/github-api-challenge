@@ -2,10 +2,18 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+const calculatePayload = callback => {
+  setTimeout(callback, 20000);
+}
 
 app.post('/payload', (request, response) => {
-  console.log("REQUEST FROM GITHUB: " + JSON.parse(request));
-  response.send('Hello from GitHub Challenge!');
+  calculatePayload(() => {
+    const webhookUrl = request.params.url;
+
+
+    console.log("WEBHOOK URL: " + webhookUrl);
+  });
+  response.status(200).send("OK");
 });
 
 app.listen(port, (err) => {
