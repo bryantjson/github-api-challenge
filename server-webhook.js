@@ -4,7 +4,7 @@ const webhooks = new Webhooks({
   secret: "1234sec",
 });
 
-webhooks.onAny("*", ({ id, name, payload }) => {
+webhooks.on("issues", ({ id, name, payload }) => {
   console.log(name, "event received");
 });
 
