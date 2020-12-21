@@ -2,6 +2,13 @@ var http = require('http')
 var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/webhook', secret: '1234sec' })
 
+const ocktokit = new ocktokit({ auth: `1234sec`});
+
+const response = await octokit.request("GET /orgs/{org}/repos", {
+  org: "github-bryant",
+  type: "public",
+});
+
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
     res.statusCode = 404
@@ -20,6 +27,8 @@ handler.on('push', function (event) {
 })
 
 handler.on('issues', function (event) {
+
+  console.log("RESPONSEL " + response);
   console.log('Received an issue event for %s action=%s: #%d %s',
     event.payload.repository.name,
     event.payload.action,
@@ -28,6 +37,8 @@ handler.on('issues', function (event) {
 })
 
 handler.on('repository', function (event) {
+
+
     console.log('Received a repository event for %s action=%s: #%d %s',
       event.payload.repository.name,
       event.payload.action)
