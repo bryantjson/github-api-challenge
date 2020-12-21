@@ -1,6 +1,7 @@
 const secret = "1234sec";
 const repo = "/opt/app-root/src";
 
+// TEST
 const http = require('http');
 const crypto = require('crypto');
 const exec = require('child_process').exec;
