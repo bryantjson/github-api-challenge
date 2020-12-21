@@ -3,7 +3,7 @@ var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/webhook', secret: '1234sec' })
 const { Octokit } = require("@octokit/core");
 
-console.log("TOKEN AUTH: " + process.env.tokenauth);
+console.log("TOKEN AUTH: " + process.env.PERSONAL_TOKEN);
 
 const octokit = new Octokit({ auth: process.env.tokenauth});
 
