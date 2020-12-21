@@ -4,7 +4,7 @@ const port = 3000;
 
 
 app.post('/payload', (request, response) => {
-  console.log("REQUEST FROM GITHUB: " + JSON.stringify(request.body.read));
+  console.log("REQUEST FROM GITHUB: " + JSON.stringify(request));
   response.send('Hello from GitHub!');
 });
 
