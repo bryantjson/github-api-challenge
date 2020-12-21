@@ -6,7 +6,7 @@ const http = require('http');
 const crypto = require('crypto');
 const exec = require('child_process').exec;
 
-console.log("START 2");
+console.log("START 3");
 
 http.createServer(function (req, res) {
   req.on('data', function(chunk) {
@@ -14,7 +14,16 @@ http.createServer(function (req, res) {
 
       console.log("NEW TEST");
       if(req.headers['x-hub-signature'] == sig) {
-          exec('cd ' + repo + ' && git pull');
+          console.log("MATCH SIG")
+          exec('cd ' + repo + ' && git pull', (error, stdout, stderr) => {
+            if(error) {
+                console.error(`exec error: ${error}`);
+                return;
+            }
+
+            console.log(`stdout: ${stdout}`);
+            console.error(`stderr: {$stderr}`);
+          });
       }
   });
 
