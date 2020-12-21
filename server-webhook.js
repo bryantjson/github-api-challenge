@@ -11,7 +11,7 @@ const createIssue = async function(a,b) {
   const response = await octokit.request("POST /repos/{owner}/{repo}/issues", {
     owner: "github-bryant",
     repo: "github-api-challenge",
-    type: "New Issue 101",
+    title: "New Issue 101",
     body: "Howdy! This is from GitHub code @mention bryantson"
   });
 
