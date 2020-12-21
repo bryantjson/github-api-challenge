@@ -6,7 +6,7 @@ const http = require('http');
 const crypto = require('crypto');
 const exec = require('child_process').exec;
 
-console.log("START");
+console.log("START 2");
 
 http.createServer(function (req, res) {
   req.on('data', function(chunk) {
