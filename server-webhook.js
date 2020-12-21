@@ -11,7 +11,7 @@ const start = async function(a,b) {
     type: "public",
   });
 
-  console.log(response);
+  console.log("HERE IS YOUR RESPONSE: " + response);
 }
 
 
