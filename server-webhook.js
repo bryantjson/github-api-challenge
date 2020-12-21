@@ -8,7 +8,7 @@ console.log("TOKEN AUTH: " + process.env.tokenauth);
 const octokit = new Octokit({ auth: process.env.tokenauth});
 
 const createIssue = async function(a,b) {
-  const response = await octokit.request("POST /repos/github-bryant//{owner}/{repo}/issues", {
+  const response = await octokit.request("POST /repos/github-bryant/{owner}/{repo}/issues", {
     owner: "github-bryant",
     repo: "github-api-challenge",
     type: "New Issue 101",
