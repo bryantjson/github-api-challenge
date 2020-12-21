@@ -4,8 +4,8 @@ const port = 3000;
 
 
 app.post('/payload', (request, response) => {
-  console.log("REQUEST FROM GITHUB: " + JSON.parse(request.body.read));
-  response.send('Hello from GitHub!');
+  console.log("REQUEST FROM GITHUB: " + JSON.parse(request));
+  response.send('Hello from GitHub Challenge!');
 });
 
 app.listen(port, (err) => {
