@@ -13,7 +13,7 @@ const start = async function(a,b) {
     type: "public",
   });
 
-  console.log("HERE IS YOUR RESPONSE: " + response);
+  console.log("HERE IS YOUR RESPONSE: " + JSON.stringify(response));
 }
 
 
