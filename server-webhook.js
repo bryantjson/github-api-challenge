@@ -1,13 +1,28 @@
-// install with: npm install @octokit/webhooks
-const { Webhooks } = require("@octokit/webhooks");
-const webhooks = new Webhooks({
-  secret: "1234sec",
-});
+var http = require('http')
+var createHandler = require('github-webhook-handler')
+var handler = createHandler({ path: '/webhook', secret: '1234sec' })
 
-webhooks.on("issues", ({ id, name, payload }) => {
-  console.log(name, "event received");
-});
+http.createServer(function (req, res) {
+  handler(req, res, function (err) {
+    res.statusCode = 404
+    res.end('no such location')
+  })
+}).listen(7777)
 
-require("http").createServer(webhooks.middleware).listen(3000);
-// can now receive webhook events at port 3000
+handler.on('error', function (err) {
+  console.error('Error:', err.message)
+})
 
+handler.on('push', function (event) {
+  console.log('Received a push event for %s to %s',
+    event.payload.repository.name,
+    event.payload.ref)
+})
+
+handler.on('issues', function (event) {
+  console.log('Received an issue event for %s action=%s: #%d %s',
+    event.payload.repository.name,
+    event.payload.action,
+    event.payload.issue.number,
+    event.payload.issue.title)
+})

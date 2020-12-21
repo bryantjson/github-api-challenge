@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "express": "4.17.1",
-    "@octokit/webhooks": "7.21.0"
+    "@octokit/webhooks": "7.21.0",
+    "github-webhook-handler": "1.0.0"
   }
 }
