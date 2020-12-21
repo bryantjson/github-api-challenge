@@ -8,7 +8,7 @@ const calculatePayload = callback => {
 
 app.post('/payload', (request, response) => {
   calculatePayload(() => {
-    const webhookUrl = request.params.url;
+    const message = request.body.read;
 
 
     console.log("WEBHOOK URL: " + webhookUrl);
