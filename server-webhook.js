@@ -56,76 +56,21 @@ webhooks.on("repository", ({ id, name, payload }) => {
     console.log("Cleaning up");
   }
 
-  try {
-
-    createOrUpdateFileContents({
-      owner: owner,
-      repo: nameRepo,
-      path: "README.md",
-      message: "Created a new README.md file",
-      content: "README.md",
-      committer: {
-        name: "Bryant Son",
-        email: "jison1984@gmail.com"
-      },
-      author: {
-        name: "Bryant",
-        email: "lovepool@utexas.edu"
-      }
-     });
-
-  } catch(e) {
-    console.log("Entering commit file catch block");
-    console.log(e);
-  } finally {
-    console.log("Cleaning up 2nd");
-  }
 
   try {
 
-    octokit.repos.updateBranchProtection({
+    octokit.repos.setAdminBranchProtection({
       owner: owner,
       repo: nameRepo,
-      branch: 'master',
-      required_status_checks : {
-        strict: true,
-        contexts: [
-          'contexts'
-        ]
-      },
-      enforce_admins: true,
-      required_pull_request_reviews: {
-        dismissal_restrictions: {
-          users: [
-            'users'
-          ],
-          teams: [
-            'teams'
-          ]
-        },
-        dismiss_stale_reviews: true,
-        require_code_owner_reviews: true,
-        required_approving_review_count: 42
-      },
-      restrictions:  { 
-        users: [
-        'users'
-        ],
-        teams: [
-          'teams'
-        ],
-        apps: [
-          'apps'
-        ]
-      }
+      branch: "master"
       }).then((response) => {
         console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
       });
   } catch(e) {
-    console.log("Entering 3rd catch block");
+    console.log("Entering 2nd catch block");
     console.log(e);
   } finally {
-    console.log("Cleaning up 3rd");
+    console.log("Cleaning up 2nd");
   }
 
 });
