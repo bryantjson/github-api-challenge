@@ -97,10 +97,10 @@ webhooks.on("repository", ({ id, name, payload }) => {
         console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
       });
   } catch(e) {
-    console.log("Entering catch block");
+    console.log("Entering 2nd catch block");
     console.log(e);
   } finally {
-    console.log("Cleaning up");
+    console.log("Cleaning up 2nd");
   }
 
 });
