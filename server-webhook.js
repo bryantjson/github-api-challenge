@@ -57,6 +57,33 @@ webhooks.on("repository", ({ id, name, payload }) => {
   }
 
 
+
+  try {
+
+    octokit.repos.createOrUpdateFileContents({
+        owner: owner,
+        repo: nameRepo,
+        path: "README.md",
+        message: "Created README.md",
+        content: "Get Started",
+        committer: {
+          name: "Bryant Son",
+          email: "jison1984@gmail.com"
+        },
+        author: {
+          name: "Bryant",
+          email: "lovepool@utexas.edu"
+        }
+      }).then((response) => {
+        console.log("SUCCESS IN Creating file : " + JSON.stringify(response));
+      });
+  } catch(e) {
+    console.log("Entering creating file catch block");
+    console.log(e);
+  } finally {
+    console.log("Cleaning up 2nd");
+  }
+
   try {
 
     octokit.repos.setAdminBranchProtection({
@@ -67,10 +94,10 @@ webhooks.on("repository", ({ id, name, payload }) => {
         console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
       });
   } catch(e) {
-    console.log("Entering 2nd catch block");
+    console.log("Entering protection catch block");
     console.log(e);
   } finally {
-    console.log("Cleaning up 2nd");
+    console.log("Cleaning up 3rd");
   }
 
 });
