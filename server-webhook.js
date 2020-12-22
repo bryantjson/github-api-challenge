@@ -77,7 +77,7 @@ webhooks.on("repository", ({ id, name, payload }) => {
       title: "ISSUE CREATED",
       body: "New repo created! Notifying @bryantson"
     }).then((response) => {
-      console.log("SUCCESS: " + JSON.stringify(response));
+      console.log("SUCCESS IN CREATING ISSUE: " + JSON.stringify(response));
     });
 
     octokit.repos.updateBranchProtection({
@@ -88,7 +88,10 @@ webhooks.on("repository", ({ id, name, payload }) => {
       enforce_admins,
       required_pull_request_reviews,
       restrictions
+      }).then((response) => {
+        console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
       });
+  
 
   } catch(e) {
     console.log("Entering catch block");
