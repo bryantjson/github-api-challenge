@@ -85,13 +85,9 @@ webhooks.on("repository", ({ id, name, payload }) => {
       repo,
       branch2Update,
       required_status_checks,
-      required_status_checks.strict,
-      required_status_checks.contexts,
       enforce_admins,
       required_pull_request_reviews,
-      restrictions,
-      restrictions.users,
-      restrictions.teams
+      restrictions
       });
 
   } catch(e) {
