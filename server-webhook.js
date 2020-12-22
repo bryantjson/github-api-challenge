@@ -38,42 +38,47 @@ webhooks.on("repository", ({ id, name, payload }) => {
 
     console.log("PAYLOAD: " + JSON.stringify(payload));
 
+  
+    if(payload.event == "created") {
 
-    octokit.issues.create({
-      owner: owner,
-      repo: nameRepo,
-      title: "ISSUE CREATED",
-      body: "New repo created! Notifying @bryantson"
-    }).then((response) => {
-      console.log("SUCCESS IN CREATING ISSUE: " + JSON.stringify(response));
-    });
-
-    octokit.repos.createOrUpdateFileContents({
-      owner: owner,
-      repo: nameRepo,
-      branch: "master",
-      path: "README.md",
-      message: "Created README.md",
-      content: "R2V0IFN0YXJ0ZWQ=",
-      committer: {
-        name: "Bryant Son",
-        email: "jison1984@gmail.com"
-      },
-      author: {
-        name: "Bryant",
-        email: "lovepool@utexas.edu"
-      }
-    }).then((response) => {
-      console.log("SUCCESS IN Creating file : " + JSON.stringify(response));
-    });
-
-    octokit.repos.setAdminBranchProtection({
-      owner: owner,
-      repo: nameRepo,
-      branch: "master"
+      octokit.issues.create({
+        owner: owner,
+        repo: nameRepo,
+        title: "ISSUE CREATED",
+        body: "New repo created! Notifying @bryantson"
       }).then((response) => {
-        console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
+        console.log("SUCCESS IN CREATING ISSUE: " + JSON.stringify(response));
       });
+
+      octokit.repos.createOrUpdateFileContents({
+        owner: owner,
+        repo: nameRepo,
+        branch: "master",
+        path: "README.md",
+        message: "Created README.md",
+        content: "R2V0IFN0YXJ0ZWQ=",
+        committer: {
+          name: "Bryant Son",
+          email: "jison1984@gmail.com"
+        },
+        author: {
+          name: "Bryant",
+          email: "lovepool@utexas.edu"
+        }
+      }).then((response) => {
+        console.log("SUCCESS IN Creating file : " + JSON.stringify(response));
+      });
+    }
+
+    if(payload.event == "edited") {
+      octokit.repos.setAdminBranchProtection({
+        owner: owner,
+        repo: nameRepo,
+        branch: "master"
+        }).then((response) => {
+          console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
+        });
+    }
 
   } catch(e) {
     console.log("Entering catch block");
