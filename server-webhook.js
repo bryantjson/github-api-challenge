@@ -37,39 +37,6 @@ webhooks.on("repository", ({ id, name, payload }) => {
 
     const nameRepo = payload.repository.name;
     const owner = "github-bryant";
-    const branch2Update = "master";
-    const required_status_checks = {
-      strict: true,
-      contexts: [
-        'contexts'
-      ]
-    };
-    const enforce_admins = true;
-    const required_pull_request_reviews = {
-      dismissal_restrictions: {
-        users: [
-          'users'
-        ],
-        teams: [
-          'teams'
-        ]
-      },
-      dismiss_stale_reviews: true,
-      require_code_owner_reviews: true,
-      required_approving_review_count: 42
-    };
-    restrictions = {
-      users: [
-        'users'
-      ],
-      teams: [
-        'teams'
-      ],
-      apps: [
-        'apps'
-      ]
-    };
-
 
     octokit.issues.create({
       owner: owner,
@@ -83,11 +50,38 @@ webhooks.on("repository", ({ id, name, payload }) => {
     octokit.repos.updateBranchProtection({
       owner,
       nameRepo,
-      branch2Update,
-      required_status_checks,
-      enforce_admins,
-      required_pull_request_reviews,
-      restrictions
+      branch: 'master',
+      required_status_checks : {
+        strict: true,
+        contexts: [
+          'contexts'
+        ]
+      },
+      enforce_admins: true,
+      required_pull_request_reviews: {
+        dismissal_restrictions: {
+          users: [
+            'users'
+          ],
+          teams: [
+            'teams'
+          ]
+        },
+        dismiss_stale_reviews: true,
+        require_code_owner_reviews: true,
+        required_approving_review_count: 42
+      },
+      restrictions:  { 
+        users: [
+        'users'
+        ],
+        teams: [
+          'teams'
+        ],
+        apps: [
+          'apps'
+        ]
+      }
       }).then((response) => {
         console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
       });
