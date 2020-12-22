@@ -14,7 +14,7 @@ const octokit = new Octokit({
 });
 
 
-  const createIssue =  octokit.issuess.create({
+  const createIssue =  octokit.issues.create({
     owner: "github-bryant",
     repo: "github-api-challenge",
     title: "New Issue 101",
