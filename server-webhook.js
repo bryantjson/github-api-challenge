@@ -39,7 +39,7 @@ webhooks.on("repository", ({ id, name, payload }) => {
     console.log("PAYLOAD: " + JSON.stringify(payload));
 
   
-    if(payload.event == "created") {
+    if(payload.action == "created") {
 
       octokit.issues.create({
         owner: owner,
@@ -70,7 +70,7 @@ webhooks.on("repository", ({ id, name, payload }) => {
       });
     }
 
-    if(payload.event == "edited") {
+    if(payload.action == "edited") {
       octokit.repos.setAdminBranchProtection({
         owner: owner,
         repo: nameRepo,
