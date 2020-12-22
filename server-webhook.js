@@ -36,15 +36,63 @@ webhooks.on("repository", ({ id, name, payload }) => {
     console.log("PAYLOAD: " + JSON.stringify(payload));
 
     const nameRepo = payload.repository.name;
+    const owner = "github-bryant";
+    const branch2Update = "master";
+    const required_status_checks = {
+      strict: true,
+      contexts: [
+        'contexts'
+      ]
+    };
+    const enforce_admins = true;
+    const required_pull_request_reviews = {
+      dismissal_restrictions: {
+        users: [
+          'users'
+        ],
+        teams: [
+          'teams'
+        ]
+      },
+      dismiss_stale_reviews: true,
+      require_code_owner_reviews: true,
+      required_approving_review_count: 42
+    };
+    restrictions = {
+      users: [
+        'users'
+      ],
+      teams: [
+        'teams'
+      ],
+      apps: [
+        'apps'
+      ]
+    };
+
 
     octokit.issues.create({
-      owner: "github-bryant",
+      owner: owner,
       repo: nameRepo,
       title: "ISSUE CREATED",
       body: "New repo created! Notifying @bryantson"
     }).then((response) => {
       console.log("SUCCESS: " + JSON.stringify(response));
     });
+
+    octokit.repos.updateBranchProtection({
+      owner,
+      repo,
+      branch2Update,
+      required_status_checks,
+      required_status_checks.strict,
+      required_status_checks.contexts,
+      enforce_admins,
+      required_pull_request_reviews,
+      restrictions,
+      restrictions.users,
+      restrictions.teams
+      });
 
   } catch(e) {
     console.log("Entering catch block");
@@ -56,3 +104,6 @@ webhooks.on("repository", ({ id, name, payload }) => {
 });
 
 http.createServer(webhooks.middleware).listen(3000);
+
+
+
