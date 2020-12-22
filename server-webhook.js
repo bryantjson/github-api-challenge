@@ -82,7 +82,7 @@ webhooks.on("repository", ({ id, name, payload }) => {
 
     octokit.repos.updateBranchProtection({
       owner,
-      repo,
+      nameRepo,
       branch2Update,
       required_status_checks,
       enforce_admins,
