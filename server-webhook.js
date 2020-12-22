@@ -92,7 +92,7 @@ webhooks.on("repository", ({ id, name, payload }) => {
               ]
             },
           dismiss_stale_reviews: true,
-          require_code_owner_reviews: true,
+          require_code_owner_reviews: false,
           required_approving_review_count: 1
           },
           restrictions: {
