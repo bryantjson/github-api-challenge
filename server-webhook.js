@@ -6,7 +6,7 @@ const { Octokit } = require("@octokit/rest");
 console.log("TOKEN AUTH: " + process.env.PERSONAL_TOKEN);
 
 const octokit = new Octokit({ 
-  auth: "1234sec",
+  auth: process.env.PERSONAL_TOKEN,
   userAgent: 'myApp v1.2.3',
   previews: ['jean-grey', 'symmetra'],
   timeZone: 'America/Chicago',
