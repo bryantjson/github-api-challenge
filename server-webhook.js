@@ -22,11 +22,7 @@ const octokit = new Octokit({
         body: "Howdy! This is from GitHub code @mention bryantson"
       });
    
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      } else {
-        return response;
-      }
+      return response;
 }
  
 http.createServer(function (req, res) {
