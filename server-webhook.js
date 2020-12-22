@@ -36,14 +36,6 @@ handler.on('push', function (event) {
 
 handler.on('issues', function (event) {
 
-  octokit.issues.create({
-    owner: "github-bryant",
-    repo: "github-api-challenge",
-    title: "New Issue 101",
-    body: "Haha! This is from GitHub code @mention bryantson"
-  }).then((response) => {
-    console.log("SUCCESS: " + response);
-  });
 
   console.log('Received an issue event for %s action=%s: #%d %s',
     event.payload.repository.name,
@@ -54,6 +46,15 @@ handler.on('issues', function (event) {
 
 handler.on('repository', function (event) {
 
+
+  octokit.issues.create({
+    owner: "github-bryant",
+    repo: "github-api-challenge",
+    title: "ISSUE CREATED",
+    body: "Haha! This is from GitHub code @bryantson"
+  }).then((response) => {
+    console.log("SUCCESS: " + response);
+  });
 
     console.log('Received a repository event for %s action=%s: #%d %s',
       event.payload.repository.name,
