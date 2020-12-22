@@ -65,7 +65,7 @@ webhooks.on("repository", ({ id, name, payload }) => {
         repo: nameRepo,
         path: "README.md",
         message: "Created README.md",
-        content: "Get Started",
+        content: "R2V0IFN0YXJ0ZWQ=",
         committer: {
           name: "Bryant Son",
           email: "jison1984@gmail.com"
