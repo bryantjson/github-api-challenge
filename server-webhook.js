@@ -14,8 +14,7 @@ const octokit = new Octokit({
 });
 
 async function createIssue () {
-  const response;
-  response = await octokit.issues.create({
+  const response = await octokit.issues.create({
       owner: "github-bryant",
       repo: "github-api-challenge",
       title: "New Issue 101",
