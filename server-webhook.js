@@ -14,17 +14,17 @@ const octokit = new Octokit({
 });
 
 async function createIssue () {
-  const response = await octokit.issues.create({
-      owner: "github-bryant",
-      repo: "github-api-challenge",
-      title: "New Issue 101",
-      body: "Howdy! This is from GitHub code @mention bryantson"
-    });
-
-    await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-
-    return response;
-
+  try {
+    const response = await octokit.issues.create({
+        owner: "github-bryant",
+        repo: "github-api-challenge",
+        title: "New Issue 101",
+        body: "Howdy! This is from GitHub code @mention bryantson"
+      });
+    }
+    catch (err) {
+      alert(err);
+    }
 }
  
 
