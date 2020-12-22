@@ -40,7 +40,7 @@ handler.on('issues', function (event) {
     owner: "github-bryant",
     repo: "github-api-challenge",
     title: "New Issue 101",
-    body: "Howdy! This is from GitHub code @mention bryantson"
+    body: "Haha! This is from GitHub code @mention bryantson"
   }).then((response) => {
     console.log("SUCCESS: " + response);
   });
