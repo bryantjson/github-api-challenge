@@ -63,6 +63,7 @@ webhooks.on("repository", ({ id, name, payload }) => {
     octokit.repos.createOrUpdateFileContents({
         owner: owner,
         repo: nameRepo,
+        branch: "master",
         path: "README.md",
         message: "Created README.md",
         content: "R2V0IFN0YXJ0ZWQ=",
