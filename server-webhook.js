@@ -21,6 +21,9 @@ const octokit = new Octokit({
 
 webhooks.on("repository", ({ id, name, payload }) => {
 
+  const nameRepo = payload.repository.name;
+  const owner = "github-bryant";
+
   try {
 
     console.log(name, "event received");
@@ -35,8 +38,6 @@ webhooks.on("repository", ({ id, name, payload }) => {
 
     console.log("PAYLOAD: " + JSON.stringify(payload));
 
-    const nameRepo = payload.repository.name;
-    const owner = "github-bryant";
 
     octokit.issues.create({
       owner: owner,
@@ -47,9 +48,19 @@ webhooks.on("repository", ({ id, name, payload }) => {
       console.log("SUCCESS IN CREATING ISSUE: " + JSON.stringify(response));
     });
 
+
+  } catch(e) {
+    console.log("Entering catch block");
+    console.log(e);
+  } finally {
+    console.log("Cleaning up");
+  }
+
+  try {
+
     octokit.repos.updateBranchProtection({
-      owner,
-      nameRepo,
+      owner: owner,
+      nameRepo: nameRepo,
       branch: 'master',
       required_status_checks : {
         strict: true,
@@ -85,8 +96,6 @@ webhooks.on("repository", ({ id, name, payload }) => {
       }).then((response) => {
         console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
       });
-  
-
   } catch(e) {
     console.log("Entering catch block");
     console.log(e);
