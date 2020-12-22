@@ -76,19 +76,38 @@ handler.on('repository', function (event) {
 
 webhooks.on("repository", ({ id, name, payload }) => {
 
-  const nameRepo = payload.name;
-  
-  console.log(name, "event received");
-  console.log("PAYLOAD: " + JSON.stringify(payload));
+  try {
 
-  octokit.issues.create({
-    owner: "github-bryant",
-    repo: nameRepo,
-    title: "ISSUE CREATED",
-    body: "New repo created! Notifying @bryantson"
-  }).then((response) => {
-    console.log("SUCCESS: " + JSON.stringify(response));
-  });
+    console.log(name, "event received");
+
+    if(!payload) {
+      throw "ERROR with null payload";
+    }
+
+    if(!payload.repository) {
+      throw "ERROR with null payload.repository";
+    }
+
+    console.log("PAYLOAD: " + JSON.stringify(payload));
+
+    const nameRepo = payload.repository.name;
+
+    octokit.issues.create({
+      owner: "github-bryant",
+      repo: nameRepo,
+      title: "ISSUE CREATED",
+      body: "New repo created! Notifying @bryantson"
+    }).then((response) => {
+      console.log("SUCCESS: " + JSON.stringify(response));
+    });
+
+  } catch(e) {
+    console.log("Entering catch block");
+    console.log(e);
+  } finally {
+    console.log("Cleaning up");
+  }
+
 });
 
 require("http").createServer(webhooks.middleware).listen(3000);
