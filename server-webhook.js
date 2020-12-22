@@ -1,9 +1,10 @@
-var http = require('http')
+var http = require('http');
 
 const { Octokit } = require("@octokit/rest");
 const { Webhooks } = require("@octokit/webhooks");
 
 console.log("TOKEN AUTH: " + process.env.PERSONAL_TOKEN);
+console.log("GITHUB WEBHOOK SECRET: " + process.env.GITHUB_WEBHOOK_SECRET);
 
 const webhooks = new Webhooks({
   secret: process.env.GITHUB_WEBHOOK_SECRET,
