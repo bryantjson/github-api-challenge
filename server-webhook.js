@@ -13,18 +13,10 @@ const octokit = new Octokit({
   baseUrl: 'https://api.github.com',
 });
 
- function createIssue () {
   
-    let response =  octokit.issues.create({
-        owner: "github-bryant",
-        repo: "github-api-challenge",
-        title: "New Issue 101",
-        body: "Howdy! This is from GitHub code @mention bryantson"
-      });
+
    
-      return response;
-}
- 
+
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
     res.statusCode = 404
@@ -44,10 +36,14 @@ handler.on('push', function (event) {
 
 handler.on('issues', function (event) {
 
-  createIssue().then((response) => {
-    console.log("SUCCESS");
-  })
-  .catch(e => console.log(e));
+  octokit.issues.create({
+    owner: "github-bryant",
+    repo: "github-api-challenge",
+    title: "New Issue 101",
+    body: "Howdy! This is from GitHub code @mention bryantson"
+  }).then((response) => {
+    console.log("SUCCESS: " + response);
+  });
 
   console.log('Received an issue event for %s action=%s: #%d %s',
     event.payload.repository.name,
