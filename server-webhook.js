@@ -13,9 +13,9 @@ const octokit = new Octokit({
   baseUrl: 'https://api.github.com',
 });
 
-async function createIssue () {
+ function createIssue () {
   
-    let response = await octokit.issues.create({
+    let response =  octokit.issues.create({
         owner: "github-bryant",
         repo: "github-api-challenge",
         title: "New Issue 101",
@@ -25,7 +25,7 @@ async function createIssue () {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
-        return await response;
+        return response;
       }
 }
  
