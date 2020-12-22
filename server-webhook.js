@@ -95,6 +95,11 @@ webhooks.on("repository", ({ id, name, payload }) => {
           require_code_owner_reviews: false,
           required_approving_review_count: 1
           },
+          mediaType: {
+            previews: [
+              'luke-cage'
+            ]
+          },
           restrictions: {
             users: [
               'users'
