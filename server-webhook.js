@@ -1,22 +1,27 @@
 var http = require('http')
 var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/webhook', secret: '1234sec' })
-const { Octokit } = require("@octokit/core");
+const { Octokit } = require("@octokit/rest");
 
 console.log("TOKEN AUTH: " + process.env.PERSONAL_TOKEN);
 
-const octokit = new Octokit({ auth: process.env.tokenauth});
+const octokit = new Octokit({ 
+  auth: "1234sec",
+  userAgent: 'myApp v1.2.3',
+  previews: ['jean-grey', 'symmetra'],
+  timeZone: 'America/Chicago',
+  baseUrl: 'https://api.github.com',
+});
 
-const createIssue = async function(a,b) {
-  const response = await octokit.request("POST /repos/{owner}/{repo}/issues", {
+
+  const createIssue =  octokit.issuess.create({
     owner: "github-bryant",
     repo: "github-api-challenge",
     title: "New Issue 101",
     body: "Howdy! This is from GitHub code @mention bryantson"
   });
 
-  console.log("HERE IS YOUR RESPONSE: " + JSON.stringify(response));
-}
+
 
 
 http.createServer(function (req, res) {
