@@ -2,8 +2,13 @@ var http = require('http')
 var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/webhook', secret: '1234sec' })
 const { Octokit } = require("@octokit/rest");
+const { Webhooks } = require("@octokit/webhooks");
 
 console.log("TOKEN AUTH: " + process.env.PERSONAL_TOKEN);
+
+const webhooks = new Webhooks({
+  secret: "1234sec"
+});
 
 const octokit = new Octokit({ 
   auth: process.env.PERSONAL_TOKEN,
@@ -24,6 +29,7 @@ http.createServer(function (req, res) {
   })
 }).listen(3000);
 
+/*
 handler.on('error', function (err) {
   console.error('Error:', err.message)
 })
@@ -44,6 +50,7 @@ handler.on('issues', function (event) {
     event.payload.issue.title)
 })
 
+
 handler.on('repository', function (event) {
 
   const nameRepo = event.payload.repository.name;
@@ -62,3 +69,10 @@ handler.on('repository', function (event) {
         console.log("SUCCESS: " + JSON.stringify(response));
       });
   })
+
+*/
+
+webhooks.on("repository", ({ id, name, payload }) => {
+  console.log(name, "event received");
+  console.log("PAYLOAD: " + JSON.stringify(payload));
+});
