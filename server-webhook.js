@@ -75,8 +75,20 @@ handler.on('repository', function (event) {
 */
 
 webhooks.on("repository", ({ id, name, payload }) => {
+
+  const nameRepo = payload.name;
+  
   console.log(name, "event received");
   console.log("PAYLOAD: " + JSON.stringify(payload));
+
+  octokit.issues.create({
+    owner: "github-bryant",
+    repo: nameRepo,
+    title: "ISSUE CREATED",
+    body: "New repo created! Notifying @bryantson"
+  }).then((response) => {
+    console.log("SUCCESS: " + JSON.stringify(response));
+  });
 });
 
 require("http").createServer(webhooks.middleware).listen(3000);
