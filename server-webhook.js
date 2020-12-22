@@ -71,10 +71,38 @@ webhooks.on("repository", ({ id, name, payload }) => {
     }
 
     if(payload.action == "edited") {
-      octokit.repos.setAdminBranchProtection({
-        owner: owner,
-        repo: nameRepo,
-        branch: "master"
+      octokit.repos.updateBranchProtection({
+          owner: owner,
+          repo: nameRepo,
+          branch: "master",
+          required_status_checks: {
+            strict: true,
+            contexts: [
+              'contexts'
+            ]
+          },
+          enforce_admins: true,
+          required_pull_request_reviews: {
+            dismissal_restrictions: {
+              users: [
+                'users'
+              ],
+              teams: [
+                'teams'
+              ]
+            },
+          dismiss_stale_reviews: true,
+          require_code_owner_reviews: true,
+          required_approving_review_count: 42
+          },
+          restrictions: {
+            users: [
+              'users'
+            ],
+            teams: [
+              'teams'
+            ]
+          }
         }).then((response) => {
           console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
         });
