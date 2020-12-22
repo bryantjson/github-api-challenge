@@ -7,7 +7,8 @@ const { Webhooks } = require("@octokit/webhooks");
 console.log("TOKEN AUTH: " + process.env.PERSONAL_TOKEN);
 
 const webhooks = new Webhooks({
-  secret: "1234sec"
+  secret: "1234sec",
+  path: "/webhook"
 });
 
 const octokit = new Octokit({ 
@@ -21,13 +22,14 @@ const octokit = new Octokit({
   
 
    
-
+/*
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
     res.statusCode = 404
     res.end('no such location')
   })
 }).listen(3000);
+*/
 
 /*
 handler.on('error', function (err) {
@@ -76,3 +78,5 @@ webhooks.on("repository", ({ id, name, payload }) => {
   console.log(name, "event received");
   console.log("PAYLOAD: " + JSON.stringify(payload));
 });
+
+require("http").createServer(webhooks.middleware).listen(3000);
