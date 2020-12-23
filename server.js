@@ -1,24 +1,129 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+var http = require('http');
 
-const calculatePayload = callback => {
-  setTimeout(callback, 20000);
-}
+const { Octokit } = require("@octokit/rest");
+const { Webhooks } = require("@octokit/webhooks");
 
-app.post('/payload', (request, response) => {
-  calculatePayload(() => {
-    const message = request.body.read;
+console.log("TOKEN AUTH: " + process.env.PERSONAL_TOKEN);
+console.log("GITHUB WEBHOOK SECRET: " + process.env.GITHUB_WEBHOOK_SECRET);
 
-
-    console.log("WEBHOOK URL: " + webhookUrl);
-  });
-  response.status(200).send("OK");
+const webhooks = new Webhooks({
+  secret: process.env.GITHUB_WEBHOOK_SECRET,
+  path: "/webhook"
 });
 
-app.listen(port, (err) => {
-  if(err) {
-    return console.log('Somethng bad happened', err);
+const octokit = new Octokit({ 
+  auth: process.env.PERSONAL_TOKEN,
+  userAgent: 'myApp v1.2.3',
+  previews: ['jean-grey', 'symmetra'],
+  timeZone: 'America/Chicago',
+  baseUrl: 'https://api.github.com',
+});
+
+webhooks.on("repository", ({ id, name, payload }) => {
+
+  const nameRepo = payload.repository.name;
+  const owner = "github-bryant";
+
+  try {
+
+    console.log(name, "event received");
+
+    if(!payload) {
+      throw "ERROR with null payload";
+    }
+
+    if(!payload.repository) {
+      throw "ERROR with null payload.repository";
+    }
+
+    console.log("PAYLOAD: " + JSON.stringify(payload));
+
+  
+    if(payload.action == "created") {
+
+      octokit.issues.create({
+        owner: owner,
+        repo: nameRepo,
+        title: "ISSUE CREATED",
+        body: "New repo created! Notifying @bryantson"
+      }).then((response) => {
+        console.log("SUCCESS IN CREATING ISSUE: " + JSON.stringify(response));
+      });
+
+      octokit.repos.createOrUpdateFileContents({
+        owner: owner,
+        repo: nameRepo,
+        branch: "master",
+        path: "README.md",
+        message: "Created README.md",
+        content: "R2V0IFN0YXJ0ZWQ=",
+        committer: {
+          name: "Bryant Son",
+          email: "jison1984@gmail.com"
+        },
+        author: {
+          name: "Bryant",
+          email: "lovepool@utexas.edu"
+        }
+      }).then((response) => {
+        console.log("SUCCESS IN Creating file : " + JSON.stringify(response));
+      });
+    }
+
+    if(payload.action == "edited") {
+      octokit.repos.updateBranchProtection({
+          owner: owner,
+          repo: nameRepo,
+          branch: "master",
+          required_status_checks: {
+            strict: true,
+            contexts: [
+              'contexts'
+            ]
+          },
+          enforce_admins: true,
+          required_pull_request_reviews: {
+            dismissal_restrictions: {
+              users: [
+                'users'
+              ],
+              teams: [
+                'teams'
+              ]
+            },
+          dismiss_stale_reviews: true,
+          require_code_owner_reviews: false,
+          required_approving_review_count: 1
+          },
+          mediaType: {
+            previews: [
+              'luke-cage'
+            ]
+          },
+          restrictions: {
+            users: [
+              'users'
+            ],
+            teams: [
+              'teams'
+            ]
+          }
+        }).then((response) => {
+          console.log("SUCCESS IN UPDATING BRANCH: " + JSON.stringify(response));
+        });
+    }
+
+  } catch(e) {
+    console.log("Entering catch block");
+    console.log(e);
+  } finally {
+    console.log("Cleaning up");
   }
-  console.log(`Server is listening on ${port}`);
+
+
 });
+
+http.createServer(webhooks.middleware).listen(3000);
+
+
+
